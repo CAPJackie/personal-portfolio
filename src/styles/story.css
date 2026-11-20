@@ -1,0 +1,394 @@
+/* Scroll progress in the header */
+.site-progress,
+.site-percent {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-progress {
+    position: absolute;
+    inset: auto 0 -1px;
+    display: block;
+    block-size: 3px;
+    background: var(--layer-interface);
+    scale: 0 1;
+    transform-origin: left;
+    animation: progress-bar linear both;
+    animation-timeline: scroll(root);
+  }
+
+  @media (width >= 48rem) {
+    .site-percent {
+      --percent: 0;
+      display: inline;
+      min-inline-size: 4ch;
+      color: var(--ink-soft);
+      counter-reset: percent var(--percent);
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      text-align: end;
+      animation: progress-number linear both;
+      animation-timeline: scroll(root);
+
+      &::before {
+        content: counter(percent) "%";
+      }
+    }
+  }
+}
+
+@keyframes progress-bar {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes progress-number {
+  from {
+    --percent: 0;
+  }
+
+  to {
+    --percent: 100;
+  }
+}
+
+/* Statement */
+.statement {
+  padding: clamp(4rem, 12vw, 9rem) var(--gutter);
+  border-block-start: 1px solid var(--line);
+
+  & p {
+    max-inline-size: 15em;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: clamp(2.5rem, 7.5vw, 7rem);
+    font-variation-settings: "wdth" 75;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+  }
+}
+
+.statement__word[data-layer] {
+  color: var(--layer);
+}
+
+/* The stack, one stop at a time */
+.stack {
+  padding: clamp(4rem, 12vw, 9rem) var(--gutter);
+  border-block-start: 1px solid var(--line);
+}
+
+.stack__pin {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.stack__title {
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  font-weight: 600;
+}
+
+.stack__list {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.chapter {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.chapter__label,
+.chapter__tools {
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);
+}
+
+.chapter__label {
+  font-weight: 600;
+}
+
+.chapter__name {
+  color: var(--layer);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(3.5rem, 15vw, 10rem);
+  font-variation-settings: "wdth" 75;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.stack__track {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Home: the headline recedes as the story begins */
+    .hero {
+      view-timeline: --hero block;
+    }
+
+    .hero__title,
+    .hero__foot {
+      transform-origin: 0 0;
+      animation: recede linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 85%;
+    }
+
+    @media (min-height: 38rem) {
+      .statement {
+        block-size: 230svh;
+        padding-block: 0;
+        view-timeline: --statement block;
+        view-timeline-inset: var(--head) 0;
+      }
+
+      .statement__pin {
+        position: sticky;
+        inset-block-start: var(--head);
+        display: grid;
+        align-content: center;
+        block-size: calc(100svh - var(--head));
+      }
+
+      .statement p {
+        transform-origin: 0 50%;
+        animation: statement-grow linear both;
+        animation-timeline: --statement;
+        animation-range: contain 0% contain 80%;
+      }
+
+      .statement__word {
+        animation: word-on linear both;
+        animation-timeline: --statement;
+        animation-range: contain calc(var(--i) / var(--n) * 80%) contain
+          calc((var(--i) + 1.5) / var(--n) * 80%);
+      }
+
+      .stack {
+        block-size: calc(var(--n) * 95svh + 100svh);
+        padding: 0;
+        view-timeline: --stack block;
+        view-timeline-inset: var(--head) 0;
+      }
+
+      .stack__pin {
+        container: stack / size;
+        position: sticky;
+        inset-block-start: var(--head);
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 1rem;
+        block-size: calc(100svh - var(--head));
+        padding: clamp(1rem, 3vh, 2rem) var(--gutter);
+        overflow: clip;
+      }
+
+      .stack__list {
+        position: relative;
+        display: block;
+      }
+
+      .chapter {
+        position: absolute;
+        inset: 0;
+        align-content: center;
+        justify-items: center;
+        text-align: center;
+        animation: chapter-show linear both;
+        animation-timeline: --stack;
+        animation-range: contain calc(var(--i) / var(--n) * 100%) contain
+          calc((var(--i) + 1) / var(--n) * 100%);
+      }
+
+      .chapter__name {
+        font-size: min(calc(150cqi / var(--chars)), 44cqb);
+        animation: chapter-grow linear both;
+        animation-timeline: --stack;
+        animation-range: inherit;
+      }
+
+      .chapter:last-child {
+        animation-name: chapter-show-last;
+
+        & .chapter__name {
+          animation-name: chapter-grow-last;
+        }
+      }
+
+      .stack__track {
+        display: block;
+        block-size: 3px;
+        background: var(--line);
+
+        & i {
+          display: block;
+          block-size: 100%;
+          background: var(--ink);
+          transform-origin: left;
+          animation: progress-bar linear both;
+          animation-timeline: --stack;
+          animation-range: contain 0% contain 100%;
+        }
+      }
+    }
+
+    /* Short phrases and titles grow into place */
+    .home-about p,
+    .about .section-title,
+    .project .section-title,
+    .outcomes li {
+      transform-origin: 0 100%;
+      animation: text-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    .site-foot__title button {
+      transform-origin: 0 100%;
+      animation: footer-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    /* About */
+    .about__title {
+      transform-origin: 0 0;
+      animation: recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .about__story p {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+
+    .experience__bar {
+      animation: bar-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 45%;
+    }
+  }
+}
+
+@keyframes recede {
+  to {
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+
+@keyframes statement-grow {
+  from {
+    scale: 0.68;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes word-on {
+  from {
+    opacity: 0.14;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chapter-show {
+  0% {
+    opacity: 0;
+  }
+
+  14%,
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes chapter-show-last {
+  0% {
+    opacity: 0;
+  }
+
+  14%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes chapter-grow {
+  0% {
+    scale: 0.1;
+  }
+
+  62%,
+  82% {
+    scale: 1;
+  }
+
+  100% {
+    scale: 1.3;
+  }
+}
+
+@keyframes chapter-grow-last {
+  0% {
+    scale: 0.1;
+  }
+
+  62%,
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes text-grow {
+  from {
+    opacity: 0.2;
+    scale: 0.62;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes footer-grow {
+  from {
+    scale: 0.36;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}

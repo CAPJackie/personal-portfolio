@@ -1,0 +1,443 @@
+.career {
+  padding: clamp(3rem, 8vw, 5rem) var(--gutter);
+  border-block-start: 1px solid var(--line);
+}
+
+.career__pin {
+  container: career / inline-size;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vh, 2rem);
+}
+
+.career__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.career__title {
+  --wdth: 80;
+  margin-block-end: 0.75rem;
+  font-size: clamp(1.75rem, 4cqi, 3rem);
+}
+
+.career__year {
+  --year: var(--to);
+  --wdth: 70;
+  counter-reset: year var(--year);
+  font-size: clamp(3.5rem, 13cqi, 10rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 0.82;
+
+  &::before {
+    content: counter(year);
+  }
+}
+
+/* Layer filter: radio buttons and :has(), no script */
+.layer-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-inline-start: -0.25rem;
+
+  & label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-block-size: 2.25rem;
+    padding-inline: 0.7rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 160ms;
+
+    &:hover {
+      background: var(--wash);
+    }
+
+    &[data-layer]::before {
+      content: "";
+      inline-size: 0.65rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--layer);
+    }
+
+    &:has(:checked) {
+      background: var(--ink);
+      color: var(--ground);
+    }
+
+    &:has(:focus-visible) {
+      outline: 3px solid var(--ring);
+      outline-offset: 2px;
+    }
+  }
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.career:has(input[value="interface"]:checked) .span-bar__stripe:not([data-layer="interface"]),
+.career:has(input[value="backend"]:checked) .span-bar__stripe:not([data-layer="backend"]),
+.career:has(input[value="data"]:checked) .span-bar__stripe:not([data-layer="data"]),
+.career:has(input[value="team"]:checked) .span-bar__stripe:not([data-layer="team"]) {
+  opacity: 0.12;
+}
+
+.career:has(input[value="interface"]:checked) .row:not([data-layers~="interface"]),
+.career:has(input[value="backend"]:checked) .row:not([data-layers~="backend"]),
+.career:has(input[value="data"]:checked) .row:not([data-layers~="data"]),
+.career:has(input[value="team"]:checked) .row:not([data-layers~="team"]) {
+  opacity: 0.4;
+}
+
+/* Waterfall */
+.lanes {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(9rem, 15rem) minmax(0, 1fr);
+  grid-template-rows: auto repeat(var(--rows), minmax(3rem, 1fr));
+  column-gap: 1.5rem;
+  min-block-size: 0;
+}
+
+.axis {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  block-size: 1.75rem;
+  border-block-end: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+
+  & span {
+    position: absolute;
+    inset-inline-start: calc(var(--x) * 1%);
+  }
+}
+
+.axis--static {
+  grid-column: 1;
+  grid-row: auto;
+  margin-block-end: -2rem;
+
+  @media (width < 40rem) {
+    & span:nth-child(even) {
+      display: none;
+    }
+  }
+}
+
+.lanes__rows {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 2 / -1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  border-block-end: 1px solid color-mix(in oklch, var(--line) 55%, transparent);
+  transition:
+    opacity 200ms,
+    background-color 160ms;
+  anchor-scope: --row-bar;
+
+  &:hover,
+  &:has(:focus-visible) {
+    background: var(--wash);
+  }
+}
+
+.row__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-inline-start: 0.25rem;
+}
+
+.row__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.row__link {
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 3px solid var(--ring);
+      outline-offset: -3px;
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+.row__dates {
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.row__lane {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.row__bar {
+  inline-size: calc(var(--dur) * 1%);
+  min-inline-size: 0.6rem;
+  margin-inline-start: calc(var(--start) * 1%);
+  anchor-name: --row-bar;
+}
+
+.span-bar {
+  position: relative;
+  block-size: 1.65rem;
+  overflow: hidden;
+  border-radius: 0.4rem;
+  background: var(--wash);
+}
+
+.span-bar__stripe {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 25%;
+  background: var(--layer);
+  transition: opacity 200ms;
+
+  &[data-layer="interface"] {
+    inset-block-start: 0;
+  }
+
+  &[data-layer="backend"] {
+    inset-block-start: 25%;
+  }
+
+  &[data-layer="data"] {
+    inset-block-start: 50%;
+  }
+
+  &[data-layer="team"] {
+    inset-block-start: 75%;
+  }
+}
+
+.row__tip {
+  display: none;
+}
+
+.playhead {
+  display: none;
+}
+
+@supports (anchor-name: --a) {
+  @media (hover: hover) {
+    .row__tip {
+      position: absolute;
+      z-index: 5;
+      position-anchor: --row-bar;
+      inset-block-end: anchor(top);
+      inset-inline-start: anchor(left);
+      inline-size: max-content;
+      max-inline-size: 18rem;
+      margin-block-end: 0.4rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 0.6rem;
+      background: var(--ink);
+      color: var(--ground);
+      font-size: 0.9rem;
+      line-height: 1.3;
+      pointer-events: none;
+      opacity: 0;
+      translate: 0 0.25rem;
+      transition:
+        opacity 140ms,
+        translate 240ms var(--ease-out),
+        display 140ms allow-discrete;
+    }
+
+    .row[data-tip="end"] .row__tip {
+      inset-inline: auto anchor(right);
+    }
+
+    .row:is(:hover, :has(:focus-visible)) .row__tip {
+      display: block;
+      opacity: 1;
+      translate: 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 0.25rem;
+      }
+    }
+  }
+}
+
+@container career (width < 44rem) {
+  .lanes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto repeat(var(--rows), minmax(3.4rem, 1fr));
+  }
+
+  .axis {
+    grid-column: 1;
+
+    & span:nth-child(even) {
+      display: none;
+    }
+  }
+
+  .row {
+    align-content: center;
+    gap: 0.2rem;
+  }
+
+  .row__label {
+    padding-inline-start: 0;
+  }
+
+  .row__name {
+    font-size: 1rem;
+  }
+
+  .span-bar {
+    block-size: 0.9rem;
+    border-radius: 0.25rem;
+  }
+
+  .playhead {
+    grid-column: 1 !important;
+  }
+}
+
+/* The pinned, scroll-linked playback */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-height: 38rem) {
+      .career {
+        block-size: 290svh;
+        padding-block: 0;
+        view-timeline: --career block;
+        view-timeline-inset: var(--head) 0;
+      }
+
+      .career__pin {
+        position: sticky;
+        inset-block-start: var(--head);
+        block-size: calc(100svh - var(--head));
+        padding-block: clamp(0.75rem, 3vh, 2rem);
+      }
+
+      .career__year {
+        animation: year-count linear both;
+        animation-timeline: --career;
+        animation-range: contain 0% contain 92%;
+      }
+
+      .row__bar {
+        animation: bar-draw linear both;
+        animation-timeline: --career;
+        animation-range: contain calc(var(--start) * 0.92%) contain
+          calc((var(--start) + var(--dur)) * 0.92%);
+      }
+
+      .row__label {
+        animation: label-on linear both;
+        animation-timeline: --career;
+        animation-range: contain calc(var(--start) * 0.92% - 2%) contain calc(var(--start) * 0.92%);
+      }
+
+      .playhead {
+        position: relative;
+        z-index: 2;
+        display: block;
+        grid-column: 2;
+        grid-row: 1 / -1;
+        container-type: inline-size;
+        pointer-events: none;
+
+        & i {
+          position: absolute;
+          inset-block: 0;
+          inline-size: 2px;
+          margin-inline-start: -1px;
+          background: var(--ink);
+          animation: playhead linear both;
+          animation-timeline: --career;
+          animation-range: contain 0% contain 92%;
+        }
+      }
+    }
+
+    @media (max-height: 37.99rem) {
+      .row__bar {
+        animation: bar-draw linear both;
+        animation-timeline: view();
+        animation-range: entry 40% cover 45%;
+      }
+    }
+  }
+}
+
+@keyframes year-count {
+  from {
+    --year: var(--from);
+  }
+
+  to {
+    --year: var(--to);
+  }
+}
+
+@keyframes bar-draw {
+  from {
+    clip-path: inset(-2px 100% -2px 0);
+  }
+
+  to {
+    clip-path: inset(-2px 0 -2px 0);
+  }
+}
+
+@keyframes label-on {
+  from {
+    opacity: 0.76;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes playhead {
+  from {
+    translate: 0;
+  }
+
+  to {
+    translate: 100cqi;
+  }
+}

@@ -1,0 +1,191 @@
+/* Personal projects */
+.side {
+  display: grid;
+  gap: clamp(3rem, 8vw, 6rem);
+  padding: clamp(2rem, 6vw, 5rem) var(--gutter) clamp(4rem, 10vw, 8rem);
+}
+
+.side__intro {
+  display: grid;
+  gap: 1.25rem;
+
+  & p {
+    max-inline-size: 30rem;
+    color: var(--ink-soft);
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.4rem);
+  }
+}
+
+.side__title {
+  max-inline-size: 12em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(2.75rem, 9vw, 8.5rem);
+  font-variation-settings: "wdth" 75;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.side__list {
+  container-type: inline-size;
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.side-card {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--line);
+  border-block-start: 0.4rem solid var(--layer);
+  border-radius: 1.5rem;
+  background: var(--raised);
+}
+
+@container (width >= 52rem) {
+  .side-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    column-gap: clamp(2rem, 5cqi, 4rem);
+  }
+}
+
+.side-card__head {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.side-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.side-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink);
+  font-weight: 600;
+
+  &::before {
+    content: "";
+    inline-size: 0.6rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--layer);
+  }
+
+  &[data-status="live"]::before {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--layer) 60%, transparent);
+  }
+}
+
+.side-card__name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(2.5rem, 7cqi, 5.5rem);
+  font-variation-settings: "wdth" 75;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+
+.side-card__tagline {
+  max-inline-size: 22em;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.side-card__body {
+  display: grid;
+  align-content: start;
+  gap: 1.75rem;
+}
+
+.side-card__points {
+  display: grid;
+  gap: 0.75rem;
+
+  & li {
+    position: relative;
+    padding-inline-start: 1.25rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block-start: 0.6em;
+      inset-inline-start: 0;
+      inline-size: 0.45rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--layer);
+    }
+  }
+}
+
+.side-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.side-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .side-card__status[data-status="live"]::before {
+    animation: live-pulse 2s var(--ease-out) infinite;
+  }
+}
+
+@keyframes live-pulse {
+  to {
+    box-shadow: 0 0 0 0.45rem transparent;
+  }
+}
+
+/* Each card rises into place, and its name grows, as it scrolls in. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .side__title {
+      transform-origin: 0 0;
+      animation: recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+
+    .side-card {
+      animation: card-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    .side-card__name {
+      transform-origin: 0 100%;
+      animation: text-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    scale: 0.94;
+    translate: 0 3rem;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+    translate: 0;
+  }
+}
