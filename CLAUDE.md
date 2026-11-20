@@ -10,8 +10,7 @@ Static content, no database or env vars. Not a git repo yet.
 
 ```bash
 npm run dev        # http://localhost:3000 → redirects to /en or /es
-npm run validate   # lint + typecheck + build — final check
-npm run format     # prettier (the edit hook already formats touched files)
+npm run validate   # lint + typecheck + build — runs automatically on git push (husky)
 ```
 
 ## Architecture
