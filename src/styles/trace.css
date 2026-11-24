@@ -86,15 +86,13 @@
 
 .career:has(input[value="interface"]:checked) .span-bar__stripe:not([data-layer="interface"]),
 .career:has(input[value="backend"]:checked) .span-bar__stripe:not([data-layer="backend"]),
-.career:has(input[value="data"]:checked) .span-bar__stripe:not([data-layer="data"]),
-.career:has(input[value="team"]:checked) .span-bar__stripe:not([data-layer="team"]) {
+.career:has(input[value="data"]:checked) .span-bar__stripe:not([data-layer="data"]) {
   opacity: 0.12;
 }
 
 .career:has(input[value="interface"]:checked) .row:not([data-layers~="interface"]),
 .career:has(input[value="backend"]:checked) .row:not([data-layers~="backend"]),
-.career:has(input[value="data"]:checked) .row:not([data-layers~="data"]),
-.career:has(input[value="team"]:checked) .row:not([data-layers~="team"]) {
+.career:has(input[value="data"]:checked) .row:not([data-layers~="data"]) {
   opacity: 0.4;
 }
 
@@ -224,7 +222,7 @@
 .span-bar__stripe {
   position: absolute;
   inset-inline: 0;
-  block-size: 25%;
+  block-size: calc(100% / 3);
   background: var(--layer);
   transition: opacity 200ms;
 
@@ -233,15 +231,11 @@
   }
 
   &[data-layer="backend"] {
-    inset-block-start: 25%;
+    inset-block-start: calc(100% / 3);
   }
 
   &[data-layer="data"] {
-    inset-block-start: 50%;
-  }
-
-  &[data-layer="team"] {
-    inset-block-start: 75%;
+    inset-block-start: calc(200% / 3);
   }
 }
 

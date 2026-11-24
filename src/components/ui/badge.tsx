@@ -1,9 +1,9 @@
 import type { ComponentProps } from "react";
-import type { Layer } from "@/data/projects";
+import type { Area } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
 /** shadcn/ui badge, coloured by the layer of the stack it belongs to. */
-export function Badge({ className, layer, ...props }: ComponentProps<"span"> & { layer?: Layer }) {
+export function Badge({ className, layer, ...props }: ComponentProps<"span"> & { layer?: Area }) {
   return (
     <span
       data-layer={layer}

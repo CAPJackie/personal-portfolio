@@ -5,7 +5,7 @@ import { profile } from "@/data/profile";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/get-locale";
 import { getAlternates } from "@/lib/metadata";
-import { cssVars, formatRange, getDomain, getYearTicks, layers, placeDates } from "@/lib/trace";
+import { areas, cssVars, formatRange, getDomain, getYearTicks, placeDates } from "@/lib/trace";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -81,7 +81,7 @@ export default async function AboutPage() {
             {t.about.skills}
           </h2>
           <dl className="skills">
-            {layers.map((layer) => (
+            {areas.map((layer) => (
               <div key={layer}>
                 <dt>{t.layers[layer]}</dt>
                 <dd>

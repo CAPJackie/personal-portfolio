@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import type { Layer } from "./projects";
+import type { Area } from "./projects";
 
 /**
  * Personal projects, from each repository's code, history and deploys.
@@ -22,7 +22,7 @@ export type SideProjectRecord = {
   /** Format: YYYY-MM, or null while ongoing. */
   endDate: string | null;
   /** Colours the card. */
-  accent: Layer;
+  accent: Area;
   links: { live?: string; code: string };
   stack: string[];
   copy: Record<Locale, SideProjectCopy>;

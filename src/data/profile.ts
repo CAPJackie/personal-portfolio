@@ -1,4 +1,4 @@
-import type { Layer } from "./projects";
+import type { Area } from "./projects";
 
 /** Facts provided by Juan and from his LinkedIn profile, in both site languages. */
 export const profile = {
@@ -66,7 +66,7 @@ export const profile = {
     },
     { layer: "data", name: "MySQL", tools: "MongoDB, Redis", label: { en: "Data", es: "Datos" } },
     { layer: "team", name: "Azure", tools: "Vercel", label: { en: "Cloud", es: "Nube" } },
-  ] satisfies { layer: Layer; name: string; tools: string; label: { en: string; es: string } }[],
+  ] satisfies { layer: Area; name: string; tools: string; label: { en: string; es: string } }[],
   experience: [
     {
       startDate: "2021-02",
@@ -290,7 +290,7 @@ export const profile = {
         },
       },
     ],
-  } satisfies Record<Layer, Skill[]>,
+  } satisfies Record<Area, Skill[]>,
 };
 
 export type Skill = {

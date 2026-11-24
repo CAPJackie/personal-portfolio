@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import type { Skill } from "@/data/profile";
-import type { Layer } from "@/data/projects";
+import type { Area } from "@/data/projects";
 import type { Locale } from "@/i18n/config";
 
 /**
@@ -13,7 +13,7 @@ export function SkillBadge({
   locale,
 }: {
   skill: Skill;
-  layer: Layer;
+  layer: Area;
   locale: Locale;
 }) {
   const tipId = `skill-${locale}-${skill.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;

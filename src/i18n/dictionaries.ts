@@ -17,6 +17,8 @@ const en = {
     stack: "Built with",
     visit: "Visit site",
     code: "View code",
+    universityTitle: "University projects",
+    details: "View details",
   },
   controls: {
     language: "Ver en español",
@@ -86,6 +88,8 @@ const es: Dictionary = {
     stack: "Tecnologías",
     visit: "Ver sitio",
     code: "Ver código",
+    universityTitle: "Proyectos universitarios",
+    details: "Ver detalles",
   },
   controls: {
     language: "View in English",

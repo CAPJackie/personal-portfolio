@@ -11,7 +11,7 @@ function localize({ copy, ...record }: ProjectRecord, locale: Locale): Project {
   return { ...record, ...copy[locale] };
 }
 
-export async function getProjects(locale: Locale) {
+async function getSorted(locale: Locale) {
   "use cache";
   cacheLife("days");
   cacheTag("projects");
@@ -19,6 +19,16 @@ export async function getProjects(locale: Locale) {
   return [...projects]
     .sort((a, b) => a.startDate.localeCompare(b.startDate))
     .map((project) => localize(project, locale));
+}
+
+/** Professional experience: what the career trace shows. */
+export async function getProjects(locale: Locale) {
+  return (await getSorted(locale)).filter((project) => project.kind !== "university");
+}
+
+/** Coursework, listed with the side projects instead of the career trace. */
+export async function getUniversityProjects(locale: Locale) {
+  return (await getSorted(locale)).filter((project) => project.kind === "university");
 }
 
 export async function getProject(locale: Locale, slug: string) {
@@ -35,7 +45,11 @@ export async function getNextProject(locale: Locale, slug: string) {
   cacheLife("days");
   cacheTag("projects");
 
-  const ordered = await getProjects(locale);
+  const current = projects.find((project) => project.slug === slug);
+  const ordered =
+    current?.kind === "university"
+      ? await getUniversityProjects(locale)
+      : await getProjects(locale);
   const index = ordered.findIndex((project) => project.slug === slug);
   return ordered[(index + 1) % ordered.length];
 }

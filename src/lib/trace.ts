@@ -1,10 +1,13 @@
 import type { CSSProperties } from "react";
 import { profile } from "@/data/profile";
-import type { Layer, Project } from "@/data/projects";
+import type { Area, Layer, Project } from "@/data/projects";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
-export const layers: Layer[] = ["interface", "backend", "data", "team"];
+/** Lanes of the career trace. */
+export const layers: Layer[] = ["interface", "backend", "data"];
+/** Every area, including non-technical ones (skills on the about page). */
+export const areas: Area[] = [...layers, "team"];
 
 type Dated = { startDate: string; endDate: string | null };
 export type Domain = { from: number; to: number; startYear: number; endYear: number };

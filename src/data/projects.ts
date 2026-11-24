@@ -5,7 +5,10 @@ import type { Locale } from "@/i18n/config";
  * Pages read this through src/lib/projects.ts, so a database can replace it later.
  */
 
-export type Layer = "interface" | "backend" | "data" | "team";
+/** Every area of work, used to tag skills and cards. */
+export type Area = "interface" | "backend" | "data" | "team";
+/** The lanes of the career trace: the technical areas only. */
+export type Layer = Exclude<Area, "team">;
 export type ProjectKind = "work" | "teaching" | "university";
 
 export type ProjectCopy = {
@@ -79,7 +82,7 @@ export const projects: ProjectRecord[] = [
     kind: "university",
     startDate: "2017-09",
     endDate: "2017-12",
-    stack: { interface: ["JSF", "PrimeFaces"], backend: ["Java", "Google Guice"], team: ["Scrum"] },
+    stack: { interface: ["JSF", "PrimeFaces"], backend: ["Java", "Google Guice"] },
     copy: {
       en: {
         name: "Planning tool",
@@ -128,7 +131,6 @@ export const projects: ProjectRecord[] = [
       interface: ["Cocos2D"],
       backend: ["STOMP", "WebSockets", "REST APIs", "NGINX", "AWS EC2"],
       data: ["Redis"],
-      team: ["Scrum"],
     },
     copy: {
       en: {
@@ -174,7 +176,7 @@ export const projects: ProjectRecord[] = [
     kind: "work",
     startDate: "2019-07",
     endDate: "2020-02",
-    stack: { interface: ["JavaScript"], backend: ["REST APIs"], team: ["Agile"] },
+    stack: { interface: ["JavaScript"], backend: ["REST APIs"] },
     copy: {
       en: {
         name: "Asesoftware",
@@ -187,7 +189,6 @@ export const projects: ProjectRecord[] = [
             title: "Web features",
             detail: "Built with a cross-functional team.",
           },
-          { layer: "team", title: "Full lifecycle", detail: "From requirements to deployment." },
         ],
         outcomes: [],
       },
@@ -202,7 +203,6 @@ export const projects: ProjectRecord[] = [
             title: "Funcionalidades web",
             detail: "Construidas con un equipo multidisciplinario.",
           },
-          { layer: "team", title: "Ciclo completo", detail: "De los requisitos al despliegue." },
         ],
         outcomes: [],
       },
@@ -260,7 +260,6 @@ export const projects: ProjectRecord[] = [
       interface: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
       backend: [".NET", "Node.js", "Express", "REST APIs", "Azure", "LLM APIs", "Vercel"],
       data: ["MySQL", "MongoDB"],
-      team: ["Scrum", "SAFe", "XP"],
     },
     copy: {
       en: {
@@ -280,11 +279,6 @@ export const projects: ProjectRecord[] = [
             detail: "Three years of .NET services, MySQL and Azure.",
           },
           { layer: "backend", title: "Generative AI", detail: "LLM APIs inside web products." },
-          {
-            layer: "team",
-            title: "Mentoring and talks",
-            detail: "React practices, architecture and AI.",
-          },
         ],
         outcomes: [{ value: "10+", label: "technical interviews" }],
       },
@@ -311,11 +305,6 @@ export const projects: ProjectRecord[] = [
             title: "IA generativa",
             detail: "APIs de LLM dentro de productos web.",
           },
-          {
-            layer: "team",
-            title: "Mentoría y charlas",
-            detail: "Prácticas de React, arquitectura e IA.",
-          },
         ],
         outcomes: [{ value: "10+", label: "entrevistas técnicas" }],
       },
@@ -329,7 +318,6 @@ export const projects: ProjectRecord[] = [
     stack: {
       interface: ["React", "PWAs"],
       backend: ["Spring Boot", "REST APIs"],
-      team: ["Teaching"],
     },
     copy: {
       en: {
@@ -344,7 +332,6 @@ export const projects: ProjectRecord[] = [
             detail: "Spring Boot with React and Android clients.",
           },
           { layer: "interface", title: "Progressive web apps", detail: "Built with React." },
-          { layer: "team", title: "Hands-on labs", detail: "Students shipped working projects." },
         ],
         outcomes: [],
       },
@@ -363,11 +350,6 @@ export const projects: ProjectRecord[] = [
             layer: "interface",
             title: "Aplicaciones web progresivas",
             detail: "Construidas con React.",
-          },
-          {
-            layer: "team",
-            title: "Laboratorios prácticos",
-            detail: "Los estudiantes entregaron proyectos funcionales.",
           },
         ],
         outcomes: [],

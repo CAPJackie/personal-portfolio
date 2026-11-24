@@ -14,6 +14,13 @@ import { getAlternates } from "@/lib/metadata";
 import { getNextProject, getProject } from "@/lib/projects";
 import { formatRange, layers } from "@/lib/trace";
 
+/**
+ * The whole page (including the shared-element morph targets) depends on the slug,
+ * so there is no URL-independent shell worth prefetching. Reading params inside
+ * Suspense would also turn unknown slugs into soft 404s.
+ */
+export const instant = false;
+
 export function generateStaticParams() {
   return projects.map(({ slug }) => ({ slug }));
 }
